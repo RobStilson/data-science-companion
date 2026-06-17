@@ -16,7 +16,7 @@
   - Verify: pytest tests/test_ingest.py -v
 
 ## Phase 3 — Pure Pandas Nodes
-- [ ] T3: F-03 Missing data node + F-05 Classification node + tests
+- [x] T3: F-03 Missing data node + F-05 Classification node + tests
   - Verify: pytest tests/test_missing.py tests/test_classify.py -v
 
 ## Phase 4 — Stats Nodes (CHECKPOINT B)
