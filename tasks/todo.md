@@ -38,7 +38,7 @@
   - Verify: pytest tests/test_export.py -v
 
 ## Phase 8 — Integration
-- [ ] T9: LangGraph graph wiring + full Chainlit app (agent/graph.py + app.py complete)
+- [x] T9: LangGraph graph wiring + full Chainlit app (agent/graph.py + app.py complete)
   - Verify: Manual smoke test — upload sample.csv, full EDA, histogram, export
 - [ ] T10: Integration test + coverage >= 80% (tests/test_integration.py)
   - Verify: pytest --cov=agent --cov=utils; ruff check . (CHECKPOINT D)
