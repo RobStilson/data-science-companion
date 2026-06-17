@@ -8,11 +8,11 @@
 ---
 
 ## Phase 1 — Foundation
-- [ ] T1: Project scaffold — requirements.txt, .env.example, agent/state.py, llm/factory.py, utils/formatting.py, test fixtures
+- [x] T1: Project scaffold — requirements.txt, .env.example, agent/state.py, llm/factory.py, utils/formatting.py, test fixtures
   - Verify: ruff check . passes; pytest collects 0 errors (CHECKPOINT A)
 
 ## Phase 2 — Ingest
-- [ ] T2: F-01 File ingest node + Chainlit skeleton + tests/test_ingest.py
+- [x] T2: F-01 File ingest node + Chainlit skeleton + tests/test_ingest.py
   - Verify: pytest tests/test_ingest.py -v
 
 ## Phase 3 — Pure Pandas Nodes
