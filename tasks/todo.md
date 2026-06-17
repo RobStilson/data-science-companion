@@ -30,7 +30,7 @@
 ## Phase 6 — User-Triggered Nodes
 - [x] T6: F-06 Correlation analysis node + tests/test_correlations.py
   - Verify: pytest tests/test_correlations.py -v
-- [ ] T7: F-07 Visualization node + prompts/viz_suggest.md + tests/test_visualize.py
+- [x] T7: F-07 Visualization node + prompts/viz_suggest.md + tests/test_visualize.py
   - Verify: pytest tests/test_visualize.py -v
 
 ## Phase 7 — Export (CHECKPOINT C)
