@@ -24,7 +24,7 @@
   - Verify: pytest tests/test_descriptive.py tests/test_skewness.py -v
 
 ## Phase 5 — LLM-Heavy Nodes
-- [ ] T5: F-02 Data dictionary node + prompts/data_dict.md + tests/test_data_dict.py
+- [x] T5: F-02 Data dictionary node + prompts/data_dict.md + tests/test_data_dict.py
   - Verify: pytest tests/test_data_dict.py -v
 
 ## Phase 6 — User-Triggered Nodes
