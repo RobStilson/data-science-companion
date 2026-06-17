@@ -28,7 +28,7 @@
   - Verify: pytest tests/test_data_dict.py -v
 
 ## Phase 6 — User-Triggered Nodes
-- [ ] T6: F-06 Correlation analysis node + tests/test_correlations.py
+- [x] T6: F-06 Correlation analysis node + tests/test_correlations.py
   - Verify: pytest tests/test_correlations.py -v
 - [ ] T7: F-07 Visualization node + prompts/viz_suggest.md + tests/test_visualize.py
   - Verify: pytest tests/test_visualize.py -v
