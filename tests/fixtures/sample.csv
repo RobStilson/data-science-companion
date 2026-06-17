@@ -1,0 +1,201 @@
+age,income,department,education,years_exp,score,salary,performance_rating,is_promoted,region
+37,,HR,High School,7,78.6,86827,1,0,East
+56,24329,Marketing,High School,13,79.3,26587,1,0,South
+31,120887,Finance,Master,3,85.5,132025,4,1,East
+58,61125,Marketing,Master,6,72.1,56135,3,0,East
+51,31205,HR,PhD,20,78.6,33094,1,0,East
+46,59034,Sales,Bachelor,8,,65106,1,0,West
+26,65178,IT,PhD,1,88.3,65163,4,0,East
+59,23505,Marketing,Master,12,66.9,25309,1,0,West
+46,73419,Finance,High School,19,89.7,68283,3,0,West
+54,84425,Finance,High School,24,74.6,87944,5,0,East
+53,34431,Marketing,High School,0,83.7,35127,1,0,East
+52,52562,HR,Bachelor,30,82.4,58435,4,1,South
+45,37152,Sales,Master,14,85.6,31814,5,0,West
+24,27455,HR,Bachelor,1,67.2,28847,2,0,North
+52,63161,Marketing,PhD,25,70.5,61477,1,0,South
+43,35615,HR,High School,3,77.9,35066,4,0,West
+25,75397,HR,PhD,0,100,75072,2,0,North
+46,23658,Sales,PhD,8,69.7,25294,5,1,North
+42,123091,Sales,High School,1,88.0,106728,5,0,North
+47,140967,Marketing,High School,3,79.2,144304,1,0,South
+35,35358,Marketing,Master,10,73.1,33236,3,0,East
+26,32800,HR,PhD,4,66.3,37063,1,0,North
+55,83213,Sales,PhD,0,67.5,92942,5,0,East
+38,43274,Sales,Master,16,61.7,47767,1,0,South
+30,79390,HR,High School,4,81.8,70146,2,0,East
+30,82440,Marketing,Bachelor,0,86.0,76245,1,0,West
+32,70588,Finance,Bachelor,2,77.0,79711,2,0,South
+52,,HR,PhD,7,73.2,23001,2,0,North
+39,93729,IT,Master,11,67.4,82718,4,0,North
+58,20600,Marketing,High School,6,65.6,17520,5,1,West
+26,50112,Sales,Master,2,62.3,47499,3,0,West
+47,80295,Finance,Bachelor,17,62.6,73314,5,1,East
+27,19259,Sales,PhD,2,58.1,20710,3,0,South
+52,38643,HR,High School,19,73.4,35101,4,1,South
+36,45141,HR,High School,2,81.2,50795,1,0,West
+54,104045,Marketing,Master,13,57.5,116443,4,1,West
+39,34703,IT,PhD,14,83.7,35121,2,0,South
+48,35386,Sales,Bachelor,13,79.6,30739,4,0,North
+22,56855,HR,PhD,0,71.4,61970,2,0,West
+43,66806,Finance,High School,21,86.4,60093,4,1,West
+49,33961,Finance,High School,4,80.1,33499,3,0,North
+52,64242,Finance,Master,0,69.4,72952,2,0,North
+34,47537,HR,High School,0,68.6,53923,4,0,South
+41,153111,Sales,High School,3,68.9,156593,4,0,South
+60,,Sales,High School,25,100,74902,3,0,East
+28,155745,HR,PhD,3,98.8,152731,5,1,West
+49,29956,Marketing,PhD,26,73.9,30948,4,0,West
+38,27956,Finance,Bachelor,10,65.6,31144,5,0,East
+52,24244,Finance,PhD,20,71.9,23549,2,0,South
+57,37077,Finance,Master,10,62.3,34926,2,0,West
+35,137587,HR,Bachelor,11,55.8,128630,1,0,South
+22,58778,IT,Bachelor,0,,52188,4,0,East
+50,116923,IT,PhD,10,76.6,128222,4,1,West
+27,82699,Sales,Bachelor,1,78.6,75893,5,0,East
+58,58436,IT,PhD,19,100,51094,2,0,East
+60,37065,HR,PhD,15,86.3,39366,4,0,West
+29,29833,Marketing,Bachelor,3,59.3,32061,5,1,West
+54,48682,IT,PhD,17,,41962,4,1,East
+58,50767,Sales,High School,1,75.6,47388,5,0,East
+48,39907,HR,PhD,10,67.6,35846,4,1,East
+27,99375,Marketing,High School,2,74.9,86085,5,0,West
+39,28754,Finance,High School,17,81.0,32039,4,0,South
+57,46865,Sales,Bachelor,0,70.0,51535,4,0,East
+52,46537,IT,PhD,7,73.3,42218,5,1,West
+54,29674,IT,PhD,8,79.2,34115,4,1,East
+42,21235,IT,PhD,6,66.2,20667,3,0,West
+53,99946,Finance,PhD,30,,111166,4,0,South
+26,72713,Sales,PhD,3,78.3,75402,4,1,South
+53,20640,Marketing,PhD,27,58.9,19323,2,0,East
+32,75461,HR,High School,4,70.8,72628,2,0,West
+27,24792,Sales,Bachelor,4,86.5,22962,3,0,South
+26,70309,Finance,Master,3,62.9,66135,4,1,South
+23,103675,IT,Master,1,72.6,89649,5,0,East
+36,32028,IT,Bachelor,10,90.3,34484,2,0,East
+24,91697,HR,Master,2,70.8,89373,2,0,West
+38,97006,IT,Master,15,79.8,107785,1,0,South
+27,42521,Sales,PhD,3,89.8,44719,5,0,East
+57,84876,Sales,PhD,10,76.3,73754,4,1,North
+41,52220,Sales,High School,15,81.5,50199,5,1,North
+48,22831,Finance,High School,8,80.9,22443,2,0,West
+47,,IT,Master,8,77.3,99175,5,1,North
+57,78875,Sales,Bachelor,6,80.7,72557,2,0,North
+56,75694,IT,Bachelor,8,,72475,2,0,South
+48,45096,IT,High School,16,,46363,4,1,South
+23,,Marketing,Master,0,98.3,47892,4,0,West
+30,66744,Marketing,Bachelor,4,74.8,70992,4,1,North
+29,29318,Marketing,PhD,3,52.3,28427,1,0,North
+52,37252,IT,Master,2,85.7,35829,2,0,South
+48,19100,Marketing,Master,11,95.0,16530,3,0,North
+52,84968,Marketing,Bachelor,7,54.6,86402,1,0,South
+23,95663,Finance,High School,0,72.0,86520,2,0,East
+55,38822,Sales,High School,6,95.1,34832,3,0,North
+31,22621,Marketing,High School,2,75.1,22105,5,0,North
+49,,Marketing,High School,3,71.2,24393,3,0,East
+35,71874,Marketing,High School,4,94.3,63680,4,1,North
+47,58853,Sales,Master,23,68.1,62552,4,0,North
+27,59407,Sales,PhD,3,80.0,57549,3,0,East
+55,11992,Sales,High School,16,67.6,11456,2,0,North
+26,45024,Sales,Bachelor,1,91.1,46097,5,0,South
+50,,IT,Master,2,69.9,48942,5,0,South
+24,17346,IT,PhD,0,68.3,16745,5,0,West
+42,47594,HR,PhD,19,82.2,41338,1,0,South
+37,58553,HR,Bachelor,14,89.6,65894,4,1,North
+28,63354,IT,High School,4,74.2,67606,5,1,East
+47,35795,Sales,Master,4,51.6,38927,2,0,East
+54,23921,Marketing,High School,11,59.1,27159,3,0,West
+26,23885,Sales,Bachelor,2,78.1,21241,4,0,South
+24,29789,Marketing,Bachelor,1,70.4,33986,5,0,West
+41,75150,Finance,Bachelor,15,81.5,73811,3,0,South
+60,47488,Finance,Bachelor,4,70.5,53675,5,1,South
+49,45372,IT,PhD,2,83.0,38929,1,0,South
+36,39849,Finance,High School,0,72.2,42416,3,0,East
+52,59535,IT,PhD,14,,64468,2,0,South
+29,54244,Finance,PhD,7,57.7,54494,2,0,North
+58,50910,HR,Master,13,81.8,57835,5,1,South
+46,77131,Finance,PhD,11,91.5,82521,1,0,North
+44,144134,IT,Bachelor,17,65.9,164925,4,1,North
+34,37230,Finance,High School,0,,36093,5,0,East
+25,43995,Sales,Master,2,71.9,43200,4,0,East
+27,42767,Finance,Master,5,96.3,49119,2,0,East
+41,66252,HR,Master,14,64.9,57156,3,0,East
+45,128892,HR,High School,16,67.4,146400,2,0,West
+26,37100,Finance,High School,1,77.0,38270,4,0,South
+47,60184,HR,Bachelor,10,63.7,53205,2,0,East
+38,34301,Marketing,High School,14,78.6,29918,2,0,East
+26,73090,HR,Master,4,91.1,80794,2,0,East
+37,,HR,Bachelor,15,90.0,25038,5,1,South
+58,27871,Finance,PhD,2,77.5,24310,4,0,West
+49,31047,Marketing,Bachelor,16,78.4,27924,3,0,South
+38,66803,Marketing,Master,6,72.8,59291,3,0,North
+60,,Sales,Bachelor,10,83.5,66407,4,1,South
+52,132666,Marketing,Master,7,62.1,124604,1,0,East
+35,114189,Finance,PhD,5,66.9,126548,4,0,West
+29,46148,IT,Bachelor,4,68.5,39926,4,1,West
+34,36958,Sales,Master,12,96.5,36929,1,0,East
+25,28025,Sales,Bachelor,0,,30908,4,0,East
+38,38633,HR,PhD,11,76.0,35094,5,0,South
+30,28783,Marketing,Master,1,63.6,27394,3,0,North
+24,46641,Marketing,PhD,0,82.0,48128,5,0,North
+41,18382,IT,Bachelor,18,83.2,18560,5,0,West
+23,46991,HR,PhD,1,73.3,50109,4,0,East
+23,39105,HR,High School,1,92.4,41340,4,0,South
+55,47300,Finance,High School,6,35.6,53780,4,1,South
+37,52952,IT,PhD,8,59.1,60464,3,0,South
+44,37588,Finance,Master,17,94.5,39580,4,1,West
+40,36916,Sales,Master,2,66.4,34219,4,0,North
+28,33926,IT,Master,4,74.5,29857,3,0,South
+48,47620,Sales,High School,20,,54247,3,0,South
+33,39731,HR,Bachelor,6,,44935,3,0,North
+40,44268,Marketing,High School,14,70.0,48930,4,0,East
+22,67589,Finance,Master,0,78.9,74810,4,0,South
+33,34145,HR,PhD,2,60.0,29093,4,0,North
+38,27809,IT,Master,11,73.5,27020,5,1,North
+36,120834,HR,Master,3,71.0,119202,5,0,East
+60,,Marketing,Bachelor,27,78.4,57721,1,0,South
+32,94251,Marketing,Bachelor,5,60.7,99349,5,1,South
+54,,HR,PhD,13,71.0,42799,4,0,South
+44,32662,HR,High School,22,76.1,35267,4,0,West
+56,23976,Finance,PhD,4,68.7,24183,2,0,North
+56,76292,IT,PhD,12,65.9,72771,3,0,West
+23,61081,HR,High School,0,76.5,65489,4,0,West
+36,134743,HR,Bachelor,13,80.3,137875,3,0,East
+41,61476,Marketing,Bachelor,8,100,61395,3,0,West
+48,38086,Marketing,Master,4,85.9,38519,2,0,West
+57,29809,Sales,PhD,13,90.0,27156,1,0,North
+39,76895,HR,Bachelor,12,71.9,85514,2,0,North
+35,83626,Marketing,Bachelor,13,83.5,75849,1,0,West
+37,77489,Sales,Bachelor,10,69.4,78271,3,0,West
+52,39063,Finance,PhD,24,,39796,2,0,North
+31,36961,Marketing,PhD,3,52.5,40657,4,1,East
+32,42416,Finance,PhD,5,84.3,42952,1,0,West
+48,77556,HR,High School,4,91.7,82376,1,0,North
+23,51615,HR,PhD,0,62.9,51649,4,0,West
+37,57810,HR,High School,6,72.5,55286,4,0,South
+27,,Sales,Bachelor,5,92.4,20993,4,0,East
+58,,Finance,PhD,27,74.1,96165,5,1,East
+42,121030,IT,High School,0,90.5,117337,1,0,South
+46,159198,Marketing,PhD,24,71.2,168239,1,0,East
+36,,HR,High School,13,89.5,74715,3,0,West
+44,109012,Finance,PhD,17,82.5,114889,4,0,South
+31,70333,HR,High School,6,70.9,62031,1,0,East
+27,,IT,High School,1,58.5,41914,1,0,South
+22,82904,HR,Master,0,57.1,95159,2,0,West
+39,37082,Finance,Bachelor,9,85.8,33380,3,0,South
+37,27397,HR,Master,15,68.4,31086,3,0,East
+49,127301,IT,PhD,26,70.6,130906,3,0,East
+33,72712,Sales,PhD,6,84.8,74367,2,0,East
+58,60411,Finance,Master,6,73.1,63704,5,0,North
+26,,Sales,PhD,3,71.9,33486,4,1,East
+56,78216,Finance,PhD,1,69.2,87496,5,0,West
+32,74801,HR,Bachelor,10,63.3,85276,3,0,East
+36,87104,HR,High School,8,65.0,92008,2,0,East
+23,34355,Marketing,Bachelor,1,84.9,31334,4,0,East
+41,70319,Finance,Master,1,82.6,77685,1,0,North
+43,112173,Sales,Bachelor,17,63.0,101619,4,0,South
+22,14433,Finance,PhD,0,81.0,15770,1,0,West
+42,108049,Marketing,Bachelor,6,66.0,112558,5,0,East
+41,65060,IT,PhD,19,77.5,61414,2,0,South
+60,47588,Sales,PhD,4,63.8,53572,2,0,West
+50,23936,Sales,Bachelor,19,69.3,20414,2,0,East
