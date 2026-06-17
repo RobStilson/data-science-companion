@@ -20,7 +20,7 @@
   - Verify: pytest tests/test_missing.py tests/test_classify.py -v
 
 ## Phase 4 — Stats Nodes (CHECKPOINT B)
-- [ ] T4: F-04 Descriptive stats node + F-08 Skewness node + prompts/callouts.md + tests
+- [x] T4: F-04 Descriptive stats node + F-08 Skewness node + prompts/callouts.md + tests
   - Verify: pytest tests/test_descriptive.py tests/test_skewness.py -v
 
 ## Phase 5 — LLM-Heavy Nodes
