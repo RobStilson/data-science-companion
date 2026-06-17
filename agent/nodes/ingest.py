@@ -29,8 +29,8 @@ async def run(state: AgentState, file_path: str, filename: str) -> AgentState:
         return {
             **state,
             "messages": state["messages"] + [
-                f"Warning: **{filename}** is {size_mb:.1f} MB which exceeds the 100 MB limit. "
-                "Processing large files may be slow. Please confirm you want to continue."
+                f"**{filename}** ({size_mb:.1f} MB) exceeds the {_SIZE_LIMIT_MB:.0f} MB limit "
+                "and was not loaded. Please upload a smaller file."
             ],
         }
 

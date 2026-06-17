@@ -17,17 +17,19 @@ async def run(state: AgentState) -> AgentState:
     """Generate a data dictionary via a single batched LLM call."""
     df = state["df"]
 
-    # Build per-column summary for the prompt
-    col_lines: list[str] = []
+    # Single pass to collect per-column metadata
+    col_meta: list[tuple] = []
     for col in df.columns:
         dtype = str(df[col].dtype)
         samples = [str(v) for v in df[col].dropna().unique()[:3]]
-        samples_str = ", ".join(samples)
         null_count = int(df[col].isnull().sum())
         null_pct = round(null_count / len(df) * 100, 1)
-        col_lines.append(
-            f"Column: {col} | Type: {dtype} | Samples: {samples_str} | Nulls: {null_count} ({null_pct}%)"
-        )
+        col_meta.append((col, dtype, samples, null_count, null_pct))
+
+    col_lines = [
+        f"Column: {col} | Type: {dtype} | Samples: {', '.join(samples)} | Nulls: {null_count} ({null_pct}%)"
+        for col, dtype, samples, null_count, null_pct in col_meta
+    ]
     column_info = "\n".join(col_lines)
 
     # Single batched LLM call
@@ -36,28 +38,27 @@ async def run(state: AgentState) -> AgentState:
     llm = get_llm()
     response = await llm.ainvoke([HumanMessage(content=prompt)])
 
-    # Parse JSON — strip markdown fences if the LLM added them
+    # Parse JSON — strip markdown fences if the LLM added them; fall back on parse error
     raw = response.content.strip()
     raw = re.sub(r"```(?:json)?\s*", "", raw).strip("`\n ")
-    descriptions: dict[str, str] = json.loads(raw)
+    try:
+        descriptions: dict[str, str] = json.loads(raw)
+    except json.JSONDecodeError:
+        descriptions = {col: "—" for col, *_ in col_meta}
 
-    # Build table
+    # Build table reusing cached metadata
     headers = ["Column", "Type", "Samples (3)", "Nulls", "Null%", "Description"]
-    rows: list[list[str]] = []
-    for col in df.columns:
-        dtype = str(df[col].dtype)
-        samples = [str(v) for v in df[col].dropna().unique()[:3]]
-        null_count = int(df[col].isnull().sum())
-        null_pct = f"{round(null_count / len(df) * 100, 1)}%"
-        desc = descriptions.get(col, "—")
-        rows.append([col, dtype, ", ".join(samples), str(null_count), null_pct, desc])
+    rows = [
+        [col, dtype, ", ".join(samples), str(null_count), f"{null_pct}%", descriptions.get(col, "—")]
+        for col, dtype, samples, null_count, null_pct in col_meta
+    ]
 
     table = make_markdown_table(headers, rows)
     msg = "\n".join(["### Data Dictionary", table])
 
     log_entry = {
         "step": "data_dict",
-        "columns": list(df.columns),
+        "columns": [col for col, *_ in col_meta],
         "descriptions": descriptions,
     }
 

@@ -17,7 +17,7 @@ def test_factory_anthropic_calls_correct_class():
     mock_instance = MagicMock()
     mock_module.ChatAnthropic.return_value = mock_instance
 
-    with patch.dict("os.environ", {"LLM_PROVIDER": "anthropic", "LLM_MODEL": "claude-test"}):
+    with patch.dict("os.environ", {"LLM_PROVIDER": "anthropic", "LLM_MODEL": "claude-test", "ANTHROPIC_API_KEY": "test-key"}):
         with patch.dict(sys.modules, {"langchain_anthropic": mock_module}):
             from llm import factory
             result = factory.get_llm()
@@ -31,7 +31,7 @@ def test_factory_openai_calls_correct_class():
     mock_instance = MagicMock()
     mock_module.ChatOpenAI.return_value = mock_instance
 
-    with patch.dict("os.environ", {"LLM_PROVIDER": "openai", "LLM_MODEL": "gpt-4o"}):
+    with patch.dict("os.environ", {"LLM_PROVIDER": "openai", "LLM_MODEL": "gpt-4o", "OPENAI_API_KEY": "test-key"}):
         with patch.dict(sys.modules, {"langchain_openai": mock_module}):
             from llm import factory
             result = factory.get_llm()
@@ -58,7 +58,7 @@ def test_factory_default_provider_is_anthropic():
     mock_module = MagicMock()
     mock_module.ChatAnthropic.return_value = MagicMock()
 
-    with patch.dict("os.environ", {}, clear=True):
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}, clear=True):
         with patch.dict(sys.modules, {"langchain_anthropic": mock_module}):
             from llm import factory
             factory.get_llm()

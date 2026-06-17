@@ -32,7 +32,7 @@ async def run(state: AgentState) -> AgentState:
         col_flags: list[str] = []
         mean_val = desc.loc["mean", col]
         std_val = desc.loc["std", col]
-        if std_val > abs(mean_val):
+        if abs(mean_val) > 1e-9 and std_val > abs(mean_val):
             col_flags.append("high_cv")
         if desc.loc["min", col] == desc.loc["max", col]:
             col_flags.append("zero_variance")

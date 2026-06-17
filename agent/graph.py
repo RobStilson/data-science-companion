@@ -5,9 +5,15 @@ from langgraph.graph import END, START, StateGraph
 from agent.nodes import classify, data_dict, descriptive, missing, skewness
 from agent.state import AgentState
 
+_compiled = None
+
 
 def build_graph():
     """Build and compile the auto-EDA LangGraph for the post-ingest sequence."""
+    global _compiled
+    if _compiled is not None:
+        return _compiled
+
     workflow = StateGraph(AgentState)
 
     workflow.add_node("missing", missing.run)
@@ -23,4 +29,5 @@ def build_graph():
     workflow.add_edge("skewness", "data_dict")
     workflow.add_edge("data_dict", END)
 
-    return workflow.compile()
+    _compiled = workflow.compile()
+    return _compiled

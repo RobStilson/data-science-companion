@@ -17,10 +17,12 @@ async def run(state: AgentState) -> AgentState:
     num_cols: list[str] = []
     discrete_cols: list[str] = []
     continuous_cols: list[str] = []
+    col_unique: dict[str, int] = {}
 
     for col in df.columns:
         dtype = df[col].dtype
         n_unique = df[col].nunique()
+        col_unique[col] = n_unique
 
         if pd.api.types.is_numeric_dtype(dtype):
             num_cols.append(col)
@@ -44,7 +46,7 @@ async def run(state: AgentState) -> AgentState:
             tags.append("discrete")
         if col in continuous_cols:
             tags.append("continuous")
-        rows.append([col, str(df[col].dtype), str(df[col].nunique()), ", ".join(tags)])
+        rows.append([col, str(df[col].dtype), str(col_unique[col]), ", ".join(tags)])
 
     table = make_markdown_table(headers, rows)
 

@@ -63,6 +63,10 @@ async def _handle_file(file: cl.File) -> None:
         await cl.Message(content=msg).send()
     state = {**state, "messages": []}
 
+    if state["df"] is None:
+        cl.user_session.set("state", state)
+        return
+
     # Auto-EDA sequence via LangGraph
     await cl.Message(content="Running automated EDA…").send()
     state = await _GRAPH.ainvoke(state)
@@ -92,7 +96,7 @@ async def _dispatch(text: str, state: AgentState) -> None:
         state = {**state, "messages": []}
 
     elif _is_viz_command(lower):
-        chart_type, cols = _parse_viz(lower)
+        chart_type, cols = _parse_viz(text)
         if chart_type:
             state = await viz_node.render(state, chart_type, cols)
         else:
@@ -127,7 +131,8 @@ def _is_viz_command(lower: str) -> bool:
     ))
 
 
-def _parse_viz(lower: str) -> tuple[str | None, list[str]]:
+def _parse_viz(text: str) -> tuple[str | None, list[str]]:
+    lower = text.lower()
     prefixes = [
         ("histogram of ", "histogram"),
         ("box of ", "box"),
@@ -139,9 +144,11 @@ def _parse_viz(lower: str) -> tuple[str | None, list[str]]:
     ]
     for prefix, chart_type in prefixes:
         if lower.startswith(prefix):
-            rest = lower[len(prefix):]
-            if " vs " in rest:
-                cols = [c.strip() for c in rest.split(" vs ")]
+            rest = text[len(prefix):]  # preserve original case for column names
+            lower_rest = rest.lower()
+            if " vs " in lower_rest:
+                split_at = lower_rest.index(" vs ")
+                cols = [rest[:split_at].strip(), rest[split_at + 4:].strip()]
             else:
                 cols = [rest.strip()]
             return chart_type, cols

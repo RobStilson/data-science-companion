@@ -14,6 +14,7 @@ from llm.factory import get_llm
 _PROMPT_PATH = Path(__file__).resolve().parent.parent.parent / "prompts" / "viz_suggest.md"
 
 _SUPPORTED_TYPES = {"histogram", "box", "scatter", "bar", "heatmap", "line", "pair plot"}
+_MIN_COLS = {"scatter": 2, "heatmap": 2, "pair plot": 2}
 
 
 def _build_figure(df, chart_type: str, cols: list[str]) -> go.Figure:
@@ -61,7 +62,10 @@ async def suggest(state: AgentState) -> AgentState:
 
     raw = response.content.strip()
     raw = re.sub(r"```(?:json)?\s*", "", raw).strip("`\n ")
-    suggestions: list[str] = json.loads(raw)
+    try:
+        suggestions: list[str] = json.loads(raw)
+    except json.JSONDecodeError:
+        suggestions = []
 
     return {**state, "viz_suggestions": suggestions}
 
@@ -72,6 +76,11 @@ async def render(state: AgentState, chart_type: str, cols: list[str]) -> AgentSt
 
     if chart_type not in _SUPPORTED_TYPES:
         err = f"Unsupported chart type '{chart_type}'. Choose from: {', '.join(sorted(_SUPPORTED_TYPES))}."
+        return {**state, "messages": state["messages"] + [err]}
+
+    min_required = _MIN_COLS.get(chart_type, 1)
+    if len(cols) < min_required:
+        err = f"'{chart_type}' requires at least {min_required} column(s); got {len(cols)}."
         return {**state, "messages": state["messages"] + [err]}
 
     unknown = [c for c in cols if c not in df.columns]

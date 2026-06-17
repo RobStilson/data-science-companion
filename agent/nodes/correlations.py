@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
 from scipy import stats
 
 from agent.state import AgentState
@@ -60,9 +61,22 @@ async def run(state: AgentState) -> AgentState:
         )
         return {**state, "messages": state["messages"] + [err]}
 
+    outcome = df[outcome_col]
+    if not pd.api.types.is_numeric_dtype(outcome.dtype):
+        err = (
+            f"Outcome column '{outcome_col}' must be numeric. "
+            f"Found dtype: {outcome.dtype}. "
+            "Encode categorical targets as integers before running correlations."
+        )
+        return {**state, "messages": state["messages"] + [err]}
+
     num_df = df.select_dtypes(include="number")
     predictors = [c for c in num_df.columns if c != outcome_col]
-    outcome = df[outcome_col]
+
+    if not predictors:
+        err = "No numeric predictor columns found to correlate against the outcome."
+        return {**state, "messages": state["messages"] + [err]}
+
     outcome_binary = outcome.nunique() == 2
     discrete_cols: list[str] = state["discrete_cols"]
 
