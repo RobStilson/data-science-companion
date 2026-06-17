@@ -34,7 +34,7 @@
   - Verify: pytest tests/test_visualize.py -v
 
 ## Phase 7 — Export (CHECKPOINT C)
-- [ ] T8: F-09 Code export — utils/code_gen.py + agent/nodes/export.py + tests/test_export.py
+- [x] T8: F-09 Code export — utils/code_gen.py + agent/nodes/export.py + tests/test_export.py
   - Verify: pytest tests/test_export.py -v
 
 ## Phase 8 — Integration
