@@ -58,7 +58,7 @@ async def run(state: AgentState) -> AgentState:
 
     log_entry = {
         "step": "data_dict",
-        "columns": [col for col, *_ in col_meta],
+        "columns": list(df.columns),
         "descriptions": descriptions,
     }
 

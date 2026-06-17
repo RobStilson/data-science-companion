@@ -1,23 +1,24 @@
 import os
 
+_REQUIRED_KEY: dict[str, str] = {
+    "anthropic": "ANTHROPIC_API_KEY",
+    "openai": "OPENAI_API_KEY",
+}
+
 
 def get_llm():
     provider = os.getenv("LLM_PROVIDER", "anthropic").lower()
     model = os.getenv("LLM_MODEL", "claude-sonnet-4-6")
 
+    if key_var := _REQUIRED_KEY.get(provider):
+        if not os.getenv(key_var):
+            raise EnvironmentError(f"{key_var} is not set. Add it to your .env file.")
+
     if provider == "anthropic":
-        if not os.getenv("ANTHROPIC_API_KEY"):
-            raise EnvironmentError(
-                "ANTHROPIC_API_KEY is not set. Add it to your .env file."
-            )
         from langchain_anthropic import ChatAnthropic
 
         return ChatAnthropic(model=model)
     elif provider == "openai":
-        if not os.getenv("OPENAI_API_KEY"):
-            raise EnvironmentError(
-                "OPENAI_API_KEY is not set. Add it to your .env file."
-            )
         from langchain_openai import ChatOpenAI
 
         return ChatOpenAI(model=model)
