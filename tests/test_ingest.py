@@ -52,13 +52,14 @@ async def test_large_file_warns_and_leaves_state_unchanged(tmp_path):
     assert "warning" in combined or "100" in combined or "mb" in combined
 
 
-async def test_multisheet_excel_prompts_for_sheet_and_leaves_state_unchanged(tmp_path):
+async def test_multisheet_excel_loads_first_sheet_and_notes_ignored(tmp_path):
     xl_path = tmp_path / "multi.xlsx"
     with pd.ExcelWriter(str(xl_path), engine="openpyxl") as writer:
         pd.DataFrame({"x": [1, 2]}).to_excel(writer, sheet_name="Sheet1", index=False)
         pd.DataFrame({"y": [3, 4]}).to_excel(writer, sheet_name="Sheet2", index=False)
     state = initial_state()
     result = await run(state, str(xl_path), "multi.xlsx")
-    assert result["df"] is None
+    assert result["df"] is not None
+    assert list(result["df"].columns) == ["x"]
     combined = " ".join(result["messages"]).lower()
     assert "sheet1" in combined and "sheet2" in combined

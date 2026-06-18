@@ -34,23 +34,23 @@ async def run(state: AgentState, file_path: str, filename: str) -> AgentState:
             ],
         }
 
+    extra_sheet_note = ""
     if ext in {".xlsx", ".xls"}:
         xl = pd.ExcelFile(file_path)
-        if len(xl.sheet_names) > 1:
-            sheet_list = ", ".join(xl.sheet_names)
-            return {
-                **state,
-                "messages": state["messages"] + [
-                    f"This Excel file has multiple sheets: **{sheet_list}**. "
-                    "Please type the sheet name you want to load."
-                ],
-            }
-        df = pd.read_excel(file_path, sheet_name=xl.sheet_names[0])
+        sheet = xl.sheet_names[0]
+        extra_sheets = xl.sheet_names[1:]
+        df = pd.read_excel(file_path, sheet_name=sheet)
+        if extra_sheets:
+            extra_sheet_note = (
+                f" (loaded sheet **{sheet}**; "
+                f"ignored: {', '.join(extra_sheets)})"
+            )
     else:
         df = pd.read_csv(file_path)
 
     shape_msg = (
-        f"Loaded **{filename}** — {df.shape[0]:,} rows × {df.shape[1]} columns."
+        f"Loaded **{filename}**{extra_sheet_note}"
+        f" — {df.shape[0]:,} rows × {df.shape[1]} columns."
     )
     preview = _head_table(df)
 

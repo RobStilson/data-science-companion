@@ -25,8 +25,13 @@ def _load_r(filename: str) -> str:
     return f'df <- readr::read_csv("{safe}")'
 
 
+def _r_str(s: str) -> str:
+    """Escape a string for safe embedding in an R double-quoted string literal."""
+    return s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\r", "\\r")
+
+
 def _r_char_vec(values: list[str]) -> str:
-    quoted = ", ".join(f'"{v}"' for v in values)
+    quoted = ", ".join(f'"{_r_str(v)}"' for v in values)
     return f"c({quoted})"
 
 
@@ -68,12 +73,13 @@ def generate_python(session_log: list[dict], filename: str) -> str:
                 "",
                 "# ── Correlations ──────────────────────────────────────────────",
                 "from scipy import stats as _stats",
-                f'_outcome = "{outcome}"',
+                f"_outcome = {outcome!r}",
                 "_corr_methods = {",
             ]
             for r in results:
                 fn = _METHOD_MAP.get(r.get("method", "Pearson"), "pearsonr")
-                lines.append(f'    "{r["predictor"]}": _stats.{fn},')
+                predictor = r.get("predictor", "?")
+                lines.append(f"    {predictor!r}: _stats.{fn},")
             lines += [
                 "}",
                 "for _col, _fn in _corr_methods.items():",
@@ -132,11 +138,11 @@ def generate_r(session_log: list[dict], filename: str) -> str:
 
         elif step == "correlations":
             outcome = entry.get("outcome_col", "")
-            predictors = [r["predictor"] for r in entry.get("results", [])]
+            predictors = [r.get("predictor", "?") for r in entry.get("results", [])]
             lines += [
                 "",
                 "# ── Correlations ──────────────────────────────────────────────",
-                f'outcome <- "{outcome}"',
+                f'outcome <- "{_r_str(outcome)}"',
                 f"predictors <- {_r_char_vec(predictors)}",
                 "for (col in predictors) {",
                 "  test <- cor.test(df[[col]], df[[outcome]])",
