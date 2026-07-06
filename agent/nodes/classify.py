@@ -5,8 +5,12 @@ import pandas as pd
 from agent.state import AgentState
 from utils.formatting import make_markdown_table
 
-_CAT_UNIQUE_THRESHOLD = 20   # numeric cols with <= this many unique values are also categorical
-_DISCRETE_THRESHOLD = 10     # numeric cols with < this many unique values are discrete
+# A numeric column with 20 or fewer unique values is probably a category code
+# (e.g. 0/1 flags, star ratings, survey scales) rather than a true measurement.
+_CAT_UNIQUE_THRESHOLD = 20
+# Within numeric columns, fewer than 10 unique values means "discrete"
+# (countable values like number of children); 10+ means "continuous".
+_DISCRETE_THRESHOLD = 10
 
 
 async def run(state: AgentState) -> AgentState:
@@ -26,16 +30,20 @@ async def run(state: AgentState) -> AgentState:
 
         if pd.api.types.is_numeric_dtype(dtype):
             num_cols.append(col)
+            # Split numeric columns into discrete vs continuous by unique-value count.
             if n_unique < _DISCRETE_THRESHOLD:
                 discrete_cols.append(col)
             else:
                 continuous_cols.append(col)
+            # Low-cardinality numeric columns also appear in cat_cols because
+            # they're often better visualised as bar charts than histograms.
             if n_unique <= _CAT_UNIQUE_THRESHOLD:
                 cat_cols.append(col)
         else:
-            # object / category / bool / datetime → categorical
+            # object / category / bool / datetime columns are always categorical.
             cat_cols.append(col)
 
+    # Build a classification table for display — each column gets all its tags.
     headers = ["Column", "Dtype", "Unique", "Classification"]
     rows = []
     for col in df.columns:
@@ -68,6 +76,8 @@ async def run(state: AgentState) -> AgentState:
         "continuous_cols": continuous_cols,
     }
 
+    # Write the column lists back into state so later nodes (correlations,
+    # auto_viz) can use them without re-computing classification.
     return {
         **state,
         "cat_cols": cat_cols,
