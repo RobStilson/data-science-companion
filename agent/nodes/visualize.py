@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from langchain_core.messages import HumanMessage
@@ -14,32 +15,68 @@ from llm.factory import get_llm
 _PROMPT_PATH = Path(__file__).resolve().parent.parent.parent / "prompts" / "viz_suggest.md"
 
 _SUPPORTED_TYPES = {"histogram", "box", "scatter", "bar", "heatmap", "line", "pair plot"}
-_MIN_COLS = {"scatter": 2, "heatmap": 2, "pair plot": 2}
+# heatmap=0: ignores col selection, always shows full numeric correlation matrix
+_MIN_COLS = {"scatter": 2, "heatmap": 0, "pair plot": 2, "line": 2}
 
 
-def _build_figure(df, chart_type: str, cols: list[str]) -> go.Figure:
+def _build_figure(df: pd.DataFrame, chart_type: str, cols: list[str]) -> go.Figure:
     if chart_type == "histogram":
         return px.histogram(df, x=cols[0])
+
     if chart_type == "box":
         if len(cols) == 2:
             return px.box(df, x=cols[1], y=cols[0])
         return px.box(df, y=cols[0])
+
     if chart_type == "scatter":
         return px.scatter(df, x=cols[0], y=cols[1])
+
     if chart_type == "bar":
         if len(cols) == 2:
-            return px.bar(df, x=cols[0], y=cols[1])
-        counts = df[cols[0]].value_counts().reset_index()
+            col_x, col_y = cols[0], cols[1]
+            if pd.api.types.is_numeric_dtype(df[col_y]):
+                # numeric y: mean per x category
+                agg = df.groupby(col_x, observed=True)[[col_y]].mean().reset_index()
+                return px.bar(agg, x=col_x, y=col_y)
+            else:
+                # both categorical: stacked count
+                agg = (
+                    df.groupby([col_x, col_y], observed=True)
+                    .size()
+                    .reset_index(name="count")
+                )
+                return px.bar(agg, x=col_x, y="count", color=col_y, barmode="stack")
+        # single col: value counts (cap at 30 to avoid thousands of bars on numeric cols)
+        counts = df[cols[0]].value_counts().head(30).reset_index()
         counts.columns = [cols[0], "count"]
+        if pd.api.types.is_numeric_dtype(df[cols[0]]):
+            total = counts["count"].sum()
+            counts["pct"] = (counts["count"] / total * 100).round(1).astype(str) + "%"
+            fig = px.bar(counts, x=cols[0], y="count", text="pct")
+            fig.update_traces(textposition="outside")
+            fig.update_layout(yaxis_range=[0, counts["count"].max() * 1.15])
+            return fig
         return px.bar(counts, x=cols[0], y="count")
+
     if chart_type == "heatmap":
-        num_df = df[cols].select_dtypes(include="number")
-        corr = num_df.corr()
-        return px.imshow(corr, text_auto=True)
+        num_df = df.select_dtypes(include="number")
+        if num_df.shape[1] < 2:
+            raise ValueError("Need at least 2 numeric columns for a heatmap.")
+        return px.imshow(num_df.corr(), text_auto=True, aspect="auto")
+
     if chart_type == "line":
-        return px.line(df, x=cols[0], y=cols[1] if len(cols) > 1 else None)
+        # sort by x so the line doesn't zigzag across unsorted rows
+        sorted_df = df.sort_values(cols[0])
+        return px.line(sorted_df, x=cols[0], y=cols[1])
+
     if chart_type == "pair plot":
-        return px.scatter_matrix(df, dimensions=cols)
+        num_cols = [c for c in cols if pd.api.types.is_numeric_dtype(df[c])]
+        if len(num_cols) < 2:
+            raise ValueError(
+                f"Pair plot needs at least 2 numeric columns; got: {', '.join(cols)}."
+            )
+        return px.scatter_matrix(df, dimensions=num_cols)
+
     raise ValueError(f"Unsupported chart type: {chart_type}")
 
 
@@ -88,9 +125,13 @@ async def render(state: AgentState, chart_type: str, cols: list[str]) -> AgentSt
         err = f"Unknown column(s): {', '.join(unknown)}. Available: {', '.join(df.columns)}."
         return {**state, "messages": state["messages"] + [err]}
 
-    fig = _build_figure(df, chart_type, cols)
+    try:
+        fig = _build_figure(df, chart_type, cols)
+    except (ValueError, KeyError) as exc:
+        return {**state, "messages": state["messages"] + [str(exc)]}
+
     log_entry = {"viz": chart_type, "cols": cols, "figure": fig.to_dict()}
-    msg = f"#### {chart_type.title()} — {', '.join(cols)}"
+    msg = f"#### {chart_type.title()} — {', '.join(cols) or 'all numeric'}"
 
     return {
         **state,

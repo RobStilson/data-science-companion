@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -10,6 +11,14 @@ from utils.formatting import make_markdown_table
 
 _SUPPORTED = {".csv", ".xlsx", ".xls"}
 _SIZE_LIMIT_MB = 100.0
+
+
+def _to_snake(name: str) -> str:
+    s = str(name)
+    s = re.sub(r'([A-Z]+)([A-Z][a-z])', r'\1_\2', s)
+    s = re.sub(r'([a-z\d])([A-Z])', r'\1_\2', s)
+    s = re.sub(r'[\s\-\.]+', '_', s)
+    return re.sub(r'_+', '_', s).lower().strip('_')
 
 
 async def run(state: AgentState, file_path: str, filename: str) -> AgentState:
@@ -47,6 +56,8 @@ async def run(state: AgentState, file_path: str, filename: str) -> AgentState:
             )
     else:
         df = pd.read_csv(file_path)
+
+    df.columns = [_to_snake(c) for c in df.columns]
 
     shape_msg = (
         f"Loaded **{filename}**{extra_sheet_note}"

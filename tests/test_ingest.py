@@ -52,6 +52,14 @@ async def test_large_file_warns_and_leaves_state_unchanged(tmp_path):
     assert "warning" in combined or "100" in combined or "mb" in combined
 
 
+async def test_columns_converted_to_snake_case(tmp_path):
+    csv_path = tmp_path / "mixed.csv"
+    csv_path.write_text("SeniorCitizen,Monthly Charges,gender\n1,50.5,Male\n")
+    state = initial_state()
+    result = await run(state, str(csv_path), "mixed.csv")
+    assert list(result["df"].columns) == ["senior_citizen", "monthly_charges", "gender"]
+
+
 async def test_multisheet_excel_loads_first_sheet_and_notes_ignored(tmp_path):
     xl_path = tmp_path / "multi.xlsx"
     with pd.ExcelWriter(str(xl_path), engine="openpyxl") as writer:

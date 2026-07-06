@@ -80,3 +80,54 @@ async def test_render_adds_message_on_success(sample_df):
     result = await render(_state(sample_df), "box", ["salary"])
     msg = "\n".join(result["messages"])
     assert "box" in msg.lower() or "salary" in msg
+
+
+# ── bar ───────────────────────────────────────────────────────────────────────
+
+async def test_render_bar_single_col(sample_df):
+    result = await render(_state(sample_df), "bar", ["department"])
+    log = next((e for e in result["session_log"] if "viz" in e), None)
+    assert log is not None and log["viz"] == "bar"
+
+
+async def test_render_bar_two_cols_numeric_y(sample_df):
+    result = await render(_state(sample_df), "bar", ["department", "salary"])
+    log = next((e for e in result["session_log"] if "viz" in e), None)
+    assert log is not None and log["viz"] == "bar"
+
+
+async def test_render_bar_two_cols_categorical_y(sample_df):
+    result = await render(_state(sample_df), "bar", ["department", "education"])
+    log = next((e for e in result["session_log"] if "viz" in e), None)
+    assert log is not None and log["viz"] == "bar"
+
+
+# ── heatmap ───────────────────────────────────────────────────────────────────
+
+async def test_render_heatmap_no_cols(sample_df):
+    result = await render(_state(sample_df), "heatmap", [])
+    log = next((e for e in result["session_log"] if "viz" in e), None)
+    assert log is not None and log["viz"] == "heatmap"
+
+
+# ── line ──────────────────────────────────────────────────────────────────────
+
+async def test_render_line(sample_df):
+    result = await render(_state(sample_df), "line", ["years_exp", "salary"])
+    log = next((e for e in result["session_log"] if "viz" in e), None)
+    assert log is not None and log["viz"] == "line"
+
+
+# ── pair plot ─────────────────────────────────────────────────────────────────
+
+async def test_render_pair_plot(sample_df):
+    result = await render(_state(sample_df), "pair plot", ["age", "salary", "years_exp"])
+    log = next((e for e in result["session_log"] if "viz" in e), None)
+    assert log is not None and log["viz"] == "pair plot"
+
+
+async def test_render_pair_plot_no_numeric_returns_error(sample_df):
+    result = await render(_state(sample_df), "pair plot", ["department", "education"])
+    assert not any("viz" in e for e in result["session_log"])
+    msg = "\n".join(result["messages"]).lower()
+    assert "numeric" in msg or "pair plot" in msg
